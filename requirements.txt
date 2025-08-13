@@ -1,0 +1,19 @@
+# Web API
+fastapi>=0.111
+uvicorn[standard]>=0.30
+python-multipart>=0.0.9
+
+# Image & numerics
+pillow>=10.0
+numpy<2.0
+
+# ML runtimes
+scikit-learn>=1.3
+joblib>=1.3
+
+# TensorFlow (pick the right one automatically)
+tensorflow-macos>=2.15; platform_system=="Darwin" and platform_machine=="arm64"
+tensorflow>=2.15; not (platform_system=="Darwin" and platform_machine=="arm64")
+
+# HTTP download
+requests>=2.31
