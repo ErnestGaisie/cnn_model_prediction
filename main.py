@@ -126,6 +126,19 @@ REGISTRY: Dict[str, Dict[str, Any]] = {
     },
 }
 
+# ----- add this helper -----
+def _load_keras_compat(path: str):
+    """
+    Load Keras models saved with older tf.keras configs on newer Keras.
+    Works on Keras 3 (needs safe_mode=False) and Keras 2.x (no safe_mode arg).
+    """
+    try:
+        return tf.keras.models.load_model(path, compile=False, safe_mode=False)
+    except TypeError:
+        # Older tf.keras that doesn't support safe_mode
+        return tf.keras.models.load_model(path, compile=False)
+
+
 def _load_entry(mid: str) -> Dict[str, Any]:
     if mid not in REGISTRY:
         raise HTTPException(404, f"Unknown model id: {mid}")
@@ -140,7 +153,7 @@ def _load_entry(mid: str) -> Dict[str, Any]:
     # Lazy load into memory
     if e["_obj"] is None:
         if e["framework"] == "keras":
-            e["_obj"] = tf.keras.models.load_model(e["path"], compile=False)
+            e["_obj"] = _load_keras_compat(e["path"]) 
         elif e["framework"] == "sklearn":
             e["_obj"] = joblib.load(e["path"])
             le_path = e.get("label_encoder_path")
