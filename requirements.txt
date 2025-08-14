@@ -6,12 +6,13 @@ requests>=2.31,<3
 
 # Imaging & numerics
 pillow>=10.3,<11
-numpy==1.26.4            # safe with TF 2.15 & sklearn wheels
+numpy==1.26.4
 
-# ML runtimes (avoid source builds)
-scikit-learn==1.3.2      # has manylinux wheels for py311
+# ML runtimes
+scikit-learn==1.3.2
 joblib>=1.3,<1.4
 
-# TensorFlow (CPU on Linux; macOS ARM locally)
-tensorflow-macos==2.15.*; platform_system == "Darwin" and platform_machine == "arm64"
-tensorflow-cpu==2.15.*; platform_system != "Darwin" or platform_machine != "arm64"
+# TensorFlow/Keras stack compatible with legacy .h5
+tensorflow-cpu==2.15.*
+keras==2.15.*            # <-- force Keras 2, not Keras 3
+h5py==3.10.*             # <-- stable with TF 2.15

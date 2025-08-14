@@ -267,6 +267,17 @@ def predict_tabular(
             pass
     return resp
 
+@app.get("/versions")
+def versions():
+    import tensorflow as tf, keras, h5py, numpy
+    return {
+        "tensorflow": tf.__version__,
+        "keras": keras.__version__,
+        "h5py": h5py.__version__,
+        "numpy": numpy.__version__,
+    }
+
+
 @app.post("/predict_image")
 async def predict_image(
     file: UploadFile = File(...),
