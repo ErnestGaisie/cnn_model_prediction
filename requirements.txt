@@ -1,19 +1,17 @@
 # Web API
-fastapi>=0.111
-uvicorn[standard]>=0.30
-python-multipart>=0.0.9
+fastapi>=0.111,<0.112
+uvicorn[standard]>=0.30,<0.31
+python-multipart>=0.0.9,<0.0.10
+requests>=2.31,<3
 
-# Image & numerics
-pillow>=10.0
-numpy<2.0
+# Imaging & numerics
+pillow>=10.3,<11
+numpy==1.26.4            # safe with TF 2.15 & sklearn wheels
 
-# ML runtimes
-scikit-learn>=1.3,<1.5
-joblib>=1.3
+# ML runtimes (avoid source builds)
+scikit-learn==1.3.2      # has manylinux wheels for py311
+joblib>=1.3,<1.4
 
-# TensorFlow (choose per platform)
+# TensorFlow (CPU on Linux; macOS ARM locally)
 tensorflow-macos==2.15.*; platform_system == "Darwin" and platform_machine == "arm64"
-tensorflow==2.15.*; platform_system != "Darwin" or platform_machine != "arm64"
-
-# HTTP download
-requests>=2.31
+tensorflow-cpu==2.15.*; platform_system != "Darwin" or platform_machine != "arm64"
